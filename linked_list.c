@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Test {
-    int num1;
-    int  character;
-}; 
-
 struct Header {
     struct Item* next;
     int end_flag;
@@ -17,20 +12,45 @@ struct Item {
     int end_flag;
 };
 
-void add_element(struct Header* header, int value){
-    struct Item *next = malloc(sizeof *next);
-    next->value = value;
-    if (header->end_flag){
-        printf("header has end flag\n");
-        next->end_flag = 1;
-        header->end_flag = 0;
+int add_element(struct Header* header, int value, int index){
+    struct Item *new_item = malloc(sizeof *new_item);
+    new_item->value = value;
+
+    // handle insertion at 0
+    if (index == 0) {
+        if (header->end_flag) {
+            new_item->end_flag = 1;
+            header->end_flag = 0;
+        }
+        else {
+            new_item->next = header->next;
+            new_item->end_flag = 0;
+        }
+        header->next = new_item;
+        return 1;
     }
-    else {
-       printf("header doesn't have end flag\n");
-       next->next = header->next;
-       next->end_flag = 0;
+    else if (header->end_flag){
+        printf("Index out of range: 0\n");
+        return 0;
     }
-    header->next = next;  
+
+    struct Item* last_item_p = header->next;
+    for (int i = 1; i<index; i++){
+        if (last_item_p->end_flag) {
+            printf("Index out of range: %d\n", i);
+            return 0;
+        }
+        last_item_p = last_item_p->next;
+    }
+    if (last_item_p->end_flag){
+        last_item_p->end_flag = 0;
+        new_item->end_flag = 1;
+    }
+    else{
+        new_item->next = last_item_p->next;
+    }
+    last_item_p->next = new_item;
+    return 1;
 }
 
 int remove_element(struct Header* header, int index){
@@ -75,18 +95,10 @@ int main(){
     struct Header ll_header; 
     ll_header.end_flag = 1; 
     struct Item working_item = *(ll_header.next);
-
-//    printf("first item location: %p\n", ll_header.next);
-//    printf("first item value: %d\n", (*ll_header.next).value);
-//    printf("first item end flag: %d\n", (*ll_header.next).end_flag);
-//    printf("Working item value: %d\n", working_item.value);
-
     for (int i = 0; i<5; i++){
-        add_element(&ll_header, i);
+        add_element(&ll_header, i, i);
     }
-    print_ll(&ll_header);
-
-    printf("\n");
-    remove_element(&ll_header, 2);
+    add_element(&ll_header, 8, 2);
+    remove_element(&ll_header, 3);
     print_ll(&ll_header);
 }
