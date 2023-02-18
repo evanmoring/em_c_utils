@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct em_ll_item{
+typedef struct em_sll_item{
     int value;
-    struct em_ll_item* next;
-} em_ll_item;
+    struct em_sll_item* next;
+} em_sll_item;
 
 typedef struct {
-    em_ll_item* next;
+    em_sll_item* next;
     int length;
-} em_ll_header;
+} em_sll_header;
 
-int em_ll_insert(em_ll_header* header, int index, int value){
-    em_ll_item *new_item = malloc(sizeof *new_item);
+int em_sll_insert(em_sll_header* header, int index, int value){
+    em_sll_item *new_item = malloc(sizeof *new_item);
     new_item->value = value;
     new_item->next = NULL;
 
@@ -27,7 +27,7 @@ int em_ll_insert(em_ll_header* header, int index, int value){
         return 0;
     }
 
-    em_ll_item* last_item_p = header->next;
+    em_sll_item* last_item_p = header->next;
     for (int i = 1; i<index; i++){
         if (last_item_p->next == NULL) {
             printf("Index out of range: %d\n", i);
@@ -41,13 +41,13 @@ int em_ll_insert(em_ll_header* header, int index, int value){
     return 1;
 }
 
-int em_ll_remove(em_ll_header* header, int index){
+int em_sll_remove(em_sll_header* header, int index){
     if (header->next == NULL){
         printf("index out of bound, list is empty");
         exit(0);
     }
-    em_ll_item * p_to_remove;
-    em_ll_item * item_before;
+    em_sll_item * p_to_remove;
+    em_sll_item * item_before;
 
     p_to_remove = header->next;
 
@@ -60,15 +60,15 @@ int em_ll_remove(em_ll_header* header, int index){
             item_before = item_before->next;
         }
         p_to_remove = item_before->next;
-        em_ll_item * p_element_after = p_to_remove->next;
+        em_sll_item * p_element_after = p_to_remove->next;
         item_before->next = p_element_after;
     }
     free(p_to_remove);
     header->length --;
 }
 
-int em_ll_print(em_ll_header * ll_header){
-    em_ll_item * p_reader = ll_header->next;
+int em_sll_print(em_sll_header * sll_header){
+    em_sll_item * p_reader = sll_header->next;
     while (! (p_reader->next == NULL)){
         printf("%d\n", p_reader->value);
         p_reader = p_reader->next;
@@ -76,8 +76,8 @@ int em_ll_print(em_ll_header * ll_header){
     printf("%d\n", p_reader->value);
 }
 
-int em_ll_get(em_ll_header * header, int index){
-    em_ll_item* item = header->next;
+int em_sll_get(em_sll_header * header, int index){
+    em_sll_item* item = header->next;
     for (int i = 0; i<index; i++){
         if (item->next == NULL) {
             printf("Index out of range: %d\n", i);
@@ -88,8 +88,8 @@ int em_ll_get(em_ll_header * header, int index){
     return item->value; 
 }
 
-int em_ll_set(em_ll_header * header, int index, int value){
-    em_ll_item* item = header->next;
+int em_sll_set(em_sll_header * header, int index, int value){
+    em_sll_item* item = header->next;
     for (int i = 0; i<index; i++){
         if (item->next == NULL) {
             printf("Index out of range: %d\n", i);
@@ -102,15 +102,15 @@ int em_ll_set(em_ll_header * header, int index, int value){
 }
 
 int main(){
-    em_ll_header ll_header; 
-    ll_header.next = NULL;
-    ll_header.length = 0;
+    em_sll_header sll_header; 
+    sll_header.next = NULL;
+    sll_header.length = 0;
     for (int i = 0; i<5; i++){
-        em_ll_insert(&ll_header, i, i);
+        em_sll_insert(&sll_header, i, i);
     }
-    em_ll_insert(&ll_header, 2, 8);
-    em_ll_remove(&ll_header, 3);
-    em_ll_print(&ll_header);
-    em_ll_set(&ll_header, 2, 9);
-    printf("get: %d\n",em_ll_get(&ll_header, 2));
+    em_sll_insert(&sll_header, 2, 8);
+    em_sll_remove(&sll_header, 3);
+    em_sll_print(&sll_header);
+    em_sll_set(&sll_header, 2, 9);
+    printf("get: %d\n",em_sll_get(&sll_header, 2));
 }
