@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-
+#include"doubly_linked_list.h"
 #define M 10
 #define DEPTH 5
 int * map [M];
@@ -15,7 +15,7 @@ struct map {
     int size;
     // pointer to array of pointers to array of pointers to map items.
     // this will turn into a linked list at some point
-    struct map_item *** p_storage;
+    em_dll_item * p_storage;
     int  (*p_hash_func)(int, struct map*, int, int, int);
 };
 
@@ -44,7 +44,7 @@ int test_universal(){
     struct map * p_map = & tmp_map;
     int res =  universal_hash(8, p_map, 17, 3, 4);
     if (res != 5){
-        printf("Universal hash is broken")
+        printf("Universal hash is broken");
         return 1;
     }
     else { printf("Universal hash test passed");}
@@ -53,28 +53,17 @@ int test_universal(){
 
 int assign_hash(int input, struct map*  p_map){
     int result = p_map->p_hash_func(input,p_map,0,0,0);
-    for (int i = 0; i < DEPTH; i++){
-        if (p_map->p_storage[result][i] == NULL){
-            struct map_item * new_mi;
-            new_mi->key = input;
-            new_mi->data = NULL;
-            printf ("%d %d\n", result, i);
-            p_map->p_storage[result][i] = new_mi;
-            return 1;
-        }
-    }
-    return 0;
+    em_dll_item * p_header = &p_map->p_storage[result];
+    em_dll_insert(p_header, 0, input);
 }
 
 struct map * initialize_hashmap(struct map * empty_map){
-    struct map_item *** p_storage = (struct map_item***)malloc(empty_map->size * sizeof(struct map_item***));  
+    em_dll_item * p_storage = (em_dll_item *)malloc(empty_map->size * sizeof(em_dll_item*));  
     for (int i = 0; i < empty_map->size; i++){
-        struct map_item** p_mi = (struct map_item**)malloc(5 * sizeof(struct map_item**));
-        for (int j = 0; j<DEPTH;j++){
-            p_mi[j] = NULL;
-
-        }
-        p_storage[i] =  p_mi;
+        em_dll_item header;
+        em_dll_item * p_header = &header;
+        em_dll_initialize(p_header);
+        p_storage[i] =  header;
     }
     empty_map->p_storage = p_storage;
     return empty_map;
@@ -89,7 +78,5 @@ int main(){
     p_test_map->size = 5;
     initialize_hashmap(p_test_map);
     int r = assign_hash(6, p_test_map);
-    int val = p_test_map->p_storage[1][0]->key;
-    printf("%d\n", val);
 
 }

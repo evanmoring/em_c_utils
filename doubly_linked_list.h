@@ -8,12 +8,17 @@ typedef struct em_dll_item{
     int header_flag;
 } em_dll_item;
 
+void em_dll_initialize(em_dll_item* header){
+    header->header_flag = 1;
+    header->next = NULL;
+}
+
 int em_dll_insert(em_dll_item* header, int index, int value){
     em_dll_item *new_item = malloc(sizeof *new_item);
     new_item->value = value;
     new_item->next = NULL;
     new_item->header_flag = 0;
-    em_dll_item* last_item_p = header->next;
+    em_dll_item* last_item_p = header;
     for (int i = 0; i<index; i++){
         if (last_item_p->next == NULL) {
             printf("Index out of range: %d\n", i);
@@ -22,7 +27,7 @@ int em_dll_insert(em_dll_item* header, int index, int value){
         last_item_p = last_item_p->next;
     }
     new_item->next = last_item_p->next;
-    new_item->previous = *last_item_p;
+    new_item->previous = last_item_p;
     last_item_p->next = new_item;
     return 1;
 }
@@ -31,7 +36,7 @@ int em_dll_remove(em_dll_item* header, int index){
     em_dll_item * p_to_remove;
     em_dll_item * item_before;
 
-    p_to_remove = header->next;
+    p_to_remove = header;
 
     item_before = p_to_remove;
     for (int i = 0; i<index; i++){
@@ -40,7 +45,7 @@ int em_dll_remove(em_dll_item* header, int index){
     p_to_remove = item_before->next;
     em_dll_item * p_element_after = p_to_remove->next;
     item_before->next = p_element_after;
-    p_element_after->previous = *item_before;
+    p_element_after->previous = item_before;
     free(p_to_remove);
 }
 
@@ -76,19 +81,4 @@ int em_dll_set(em_dll_item* header, int index, int value){
         item = item->next;
     }
     item->value = value; 
-}
-
-int main(){
-    em_dll_item dll_header; 
-    dell_header.header_flag = 1;
-    dll_header.next = NULL;
-    dll_header.length = 0;
-    for (int i = 0; i<5; i++){
-        em_dll_insert(&dll_header, i, i);
-    }
-    em_dll_insert(&dll_header, 2, 8);
-    em_dll_remove(&dll_header, 3);
-    em_dll_print(&dll_header);
-    em_dll_set(&dll_header, 2, 9);
-    printf("get: %d\n",em_dll_get(&dll_header, 2));
 }

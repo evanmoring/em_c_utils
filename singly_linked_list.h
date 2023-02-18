@@ -101,16 +101,3 @@ int em_sll_set(em_sll_header * header, int index, int value){
     item->value = value; 
 }
 
-int main(){
-    em_sll_header sll_header; 
-    sll_header.next = NULL;
-    sll_header.length = 0;
-    for (int i = 0; i<5; i++){
-        em_sll_insert(&sll_header, i, i);
-    }
-    em_sll_insert(&sll_header, 2, 8);
-    em_sll_remove(&sll_header, 3);
-    em_sll_print(&sll_header);
-    em_sll_set(&sll_header, 2, 9);
-    printf("get: %d\n",em_sll_get(&sll_header, 2));
-}
