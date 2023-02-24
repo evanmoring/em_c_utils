@@ -13,8 +13,9 @@ int test_dll(){
     em_dll_remove(dll_header, 3);
     if (em_dll_get(dll_header, 2) != 8){return 1;}
     em_dll_set(dll_header, 2, 9);
-    if (em_dll_get(dll_header, 2) != 9){return 1;}
     if (em_dll_get(dll_header, 3) != 3){return 1;}
+    if(*em_dll_index_of(dll_header, 9) != 2){return 1;}
+    if(em_dll_index_of(dll_header, 10) != NULL){return 1;}
     return 0;
 }
 

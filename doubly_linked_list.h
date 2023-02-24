@@ -8,13 +8,14 @@ typedef struct em_dll_item{
     int header_flag;
 } em_dll_item;
 
+
 void em_dll_initialize(em_dll_item* header){
     header->header_flag = 1;
     header->next = NULL;
 }
 
 int em_dll_insert(em_dll_item* header, int index, int value){
-    em_dll_item *new_item = malloc(sizeof *new_item);
+    em_dll_item * new_item = malloc(sizeof (em_dll_item));
     new_item->value = value;
     new_item->next = NULL;
     new_item->header_flag = 0;
@@ -68,6 +69,21 @@ int em_dll_get(em_dll_item * header, int index){
         item = item->next;
     }
     return item->value; 
+}
+
+int* em_dll_index_of(em_dll_item * header, int value){
+    em_dll_item* item = header;
+    int index = 0;
+    int* result_p = NULL;
+    while (item->next != NULL){
+        item = item->next;
+        if (item->value == value){
+            int result = index;
+            result_p = &result;
+        }
+        index ++; 
+    }
+    return result_p;
 }
 
 int em_dll_set(em_dll_item* header, int index, int value){
