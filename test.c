@@ -1,5 +1,6 @@
-#include "doubly_linked_list.h"
 #include "singly_linked_list.h"
+#include "doubly_linked_list.h"
+#include "hashmap.h"
 
 int test_dll(){
     em_dll_item dll_h;
@@ -33,6 +34,18 @@ int test_sll(){
     return 0;
 }
 
+int test_hashmap(){
+    hashmap test_map;
+    hashmap * p_test_map = &test_map;
+    hm_initialize(p_test_map, 5, 17, 3, 4, universal_hash);
+    
+    hm_insert(6, p_test_map);
+    if(test_universal_hash()){printf("test_universal_hash failed\n"); return 1;}
+    if(! hm_get(p_test_map, 6)){printf("hm_insert test failed\n");return 1;}
+    if(hm_get(p_test_map, 5)){printf("hm_get missing key test failed\n");return 1;}
+    return 0;
+}
+
 int main(){
     if (!test_dll()){ printf("test dll passed\n");}
     else{printf("test dll failed\n");}
@@ -40,4 +53,6 @@ int main(){
     if (!test_sll()){ printf("test sll passed\n");}
     else{printf("test sll failed\n");}
 
+    if (!test_hashmap()){ printf("test hashmap passed\n");}
+    else{printf("test hashmap failed\n");}
 }

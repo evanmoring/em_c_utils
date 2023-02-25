@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef DOUBLY_LINKED_LIST_H
+#define DOUBLY_LINKED_LIST_H
+
 typedef struct em_dll_item{
     int value;
     struct em_dll_item* next;
@@ -98,3 +101,5 @@ int em_dll_set(em_dll_item* header, int index, int value){
     }
     item->value = value; 
 }
+
+#endif
