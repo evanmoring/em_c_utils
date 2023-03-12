@@ -7,11 +7,13 @@ struct bst_node* right;
 int value;
 } bst_node;
 
-void init_bst (bst_node* header, int value){
+bst_node* init_bst (int value){
+    bst_node * header = malloc(sizeof (bst_node));
     header->left = NULL;
     header->right = NULL;
     header->parent = NULL;
     header->value = value;
+    return header;
 }
 
 void walk_bst (bst_node* header){
@@ -115,6 +117,7 @@ bst_node* delete_bst (bst_node* header, bst_node* to_delete){
         }
     }
     // return header in case there is a new root to the tree
+    free(to_delete);
     return header;
 }
 

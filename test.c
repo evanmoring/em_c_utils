@@ -48,9 +48,7 @@ int test_hashmap(){
 }
 
 int test_bst(){
-    bst_node new_tree;
-    bst_node * p_new_tree = &new_tree;
-    init_bst(p_new_tree, 5);
+    bst_node * p_new_tree = init_bst(5);
     insert_bst(p_new_tree, 3);
     insert_bst(p_new_tree, 8);
     insert_bst(p_new_tree, 4);
