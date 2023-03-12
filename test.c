@@ -1,6 +1,7 @@
 #include "singly_linked_list.h"
 #include "doubly_linked_list.h"
 #include "hashmap.h"
+#include "bst.h"
 
 int test_dll(){
     em_dll_item dll_h;
@@ -46,6 +47,27 @@ int test_hashmap(){
     return 0;
 }
 
+int test_bst(){
+    bst_node new_tree;
+    bst_node * p_new_tree = &new_tree;
+    init_bst(p_new_tree, 5);
+    insert_bst(p_new_tree, 3);
+    insert_bst(p_new_tree, 8);
+    insert_bst(p_new_tree, 4);
+    insert_bst(p_new_tree, 2);
+    insert_bst(p_new_tree, 9);
+    insert_bst(p_new_tree, 0);
+    bst_node * searched = search_bst(p_new_tree, 5);
+    bst_node * s = successor_bst(searched);
+    if(s->value != 8){printf("bst successor test failed\n"); return 1;}
+    bst_node * p = predecessor_bst(searched);
+    if(p->value != 4){printf("bst predecessor test failed\n"); return 1;}
+    if (searched->value !=  5){printf("bst search test failed\n");return 1;}
+    p_new_tree = delete_bst(p_new_tree, searched);
+    searched = search_bst(p_new_tree, 5);
+    if (searched != NULL){ printf("bst delete test failed\n");return 1;}
+}
+
 int main(){
     if (!test_dll()){ printf("test dll passed\n");}
     else{printf("test dll failed\n");}
@@ -55,4 +77,7 @@ int main(){
 
     if (!test_hashmap()){ printf("test hashmap passed\n");}
     else{printf("test hashmap failed\n");}
+
+    if (!test_bst()){ printf("test bst passed\n");}
+    else{printf("test bst failed\n");}
 }
