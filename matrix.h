@@ -83,36 +83,5 @@ matrix* mult_m(matrix* a, matrix* b){
             set_m(o, o_indices, to_set);       
         }
     }
-    show_m(o);
-}
-
-int main(){
-    matrix* m = (matrix*) malloc(sizeof(matrix));
-    // initialize matrix
-    int example [2][3]= {{1,2,3},{4,5,6}};
-    int* p_ex = (int*) malloc(sizeof(example));
-    memcpy(p_ex, example, sizeof(int)*6);
-    int shape[2] = {2,3};
-    int* p_shape = shape;
-    int axes = 2;
-    matrix* ex_m = init_matrix(axes, p_shape, p_ex);
-
-    int example_b [3][2] = {{7,8},{9,10},{11,12}};
-    int* p_ex_b = (int*) malloc(sizeof(example));
-    memcpy(p_ex_b, example_b, sizeof(example_b));
-    int shape_b[2] = {3,2};
-    int* p_shape_b = shape_b;
-    matrix* ex_b = init_matrix(axes, p_shape_b, p_ex_b);
-
-    int indexes[2] = {1,1};
-    //set_m(ex_m, indexes, 9);
-    //show_m(ex_m);
-    // should be 58 64 139 154
-    // TODO write test
-    matrix* ex_c = mult_m(ex_m, ex_b);
-
-
-    //int indices[2] = {0,2};
-    //int* p_indices = indices;
-    //show_m(ex_m);
+    return o;
 }

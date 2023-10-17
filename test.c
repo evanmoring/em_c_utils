@@ -2,6 +2,7 @@
 #include "doubly_linked_list.h"
 #include "hashmap.h"
 #include "bst.h"
+#include "matrix.h"
 
 int test_dll(){
     em_dll_item dll_h;
@@ -66,6 +67,27 @@ int test_bst(){
     if (searched != NULL){ printf("bst delete test failed\n");return 1;}
 }
 
+int test_matrix(){
+    int example [2][3]= {{1,2,3},{4,5,6}};
+    int* p_ex = (int*) malloc(sizeof(example));
+    memcpy(p_ex, example, sizeof(int)*6);
+    int shape[2] = {2,3};
+    int* p_shape = shape;
+    int axes = 2;
+    matrix* ex_m = init_matrix(axes, p_shape, p_ex);
+
+    int example_b [3][2] = {{7,8},{9,10},{11,12}};
+    int* p_ex_b = (int*) malloc(sizeof(example_b));
+    memcpy(p_ex_b, example_b, sizeof(example_b));
+    int shape_b[2] = {3,2};
+    int* p_shape_b = shape_b;
+    matrix* ex_b = init_matrix(axes, p_shape_b, p_ex_b);
+    matrix* ex_c;
+    ex_c = mult_m(ex_m, ex_b);
+    if (ex_c->matrix[0] != 58){printf("matrix multiplication test failed"); return 1; }
+    return 0;
+}
+
 int main(){
     if (!test_dll()){ printf("test dll passed\n");}
     else{printf("test dll failed\n");}
@@ -78,4 +100,7 @@ int main(){
 
     if (!test_bst()){ printf("test bst passed\n");}
     else{printf("test bst failed\n");}
+
+    if (!test_matrix()){ printf("test matrix passed\n");}
+    else{printf("test matrix failed\n");}
 }
