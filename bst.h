@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 typedef struct bst_node {
-struct bst_node* parent;
-struct bst_node* left;
-struct bst_node* right;
-int value;
+    struct bst_node* parent;
+    struct bst_node* left;
+    struct bst_node* right;
+    int value;
 } bst_node;
 
 bst_node* init_bst (int value){
